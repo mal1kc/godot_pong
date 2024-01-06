@@ -1,0 +1,150 @@
+[gd_scene load_steps=8 format=3 uid="uid://d4dgy31vdd320"]
+
+[ext_resource type="Script" path="res://scripts/pong.gd" id="1_hs0yf"]
+[ext_resource type="Script" path="res://scripts/player.gd" id="2_w2vat"]
+[ext_resource type="Script" path="res://scripts/ball.gd" id="2_xtumw"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_rbkhh"]
+size = Vector2(10, 140)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_34bvq"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_k7g0r"]
+size = Vector2(10, 1000)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_tqrge"]
+size = Vector2(1500, 10)
+
+[node name="Pong" type="Node2D"]
+script = ExtResource("1_hs0yf")
+
+[node name="player_1" type="Area2D" parent="."]
+position = Vector2(-510, 0)
+script = ExtResource("2_w2vat")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="player_1"]
+shape = SubResource("RectangleShape2D_rbkhh")
+
+[node name="player_2" type="Area2D" parent="."]
+position = Vector2(510, 0)
+script = ExtResource("2_w2vat")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="player_2"]
+shape = SubResource("RectangleShape2D_rbkhh")
+
+[node name="ball" type="Area2D" parent="."]
+script = ExtResource("2_xtumw")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ball"]
+shape = SubResource("CircleShape2D_34bvq")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+
+[node name="score_pane" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 10
+anchor_right = 1.0
+offset_left = -500.0
+offset_top = -280.0
+offset_right = 500.0
+offset_bottom = -280.0
+grow_horizontal = 2
+
+[node name="_ui_score_player_1" type="Label" parent="score_pane"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -11.5
+offset_right = 10.0
+offset_bottom = 11.5
+grow_vertical = 2
+text = "0"
+
+[node name="_ui_pause_button" type="Button" parent="score_pane"]
+process_mode = 3
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -4.0
+offset_right = 4.0
+offset_bottom = 8.0
+grow_horizontal = 2
+toggle_mode = true
+text = "pause game"
+flat = true
+
+[node name="_ui_restart_button" type="Button" parent="score_pane"]
+process_mode = 3
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -54.0
+offset_top = -31.0
+offset_right = 54.0
+grow_horizontal = 2
+grow_vertical = 0
+toggle_mode = true
+text = "restart game"
+flat = true
+
+[node name="_ui_score_player_2" type="Label" parent="score_pane"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -67.0625
+offset_top = -15.5
+offset_bottom = 15.5
+grow_horizontal = 0
+grow_vertical = 2
+text = "0"
+horizontal_alignment = 2
+
+[node name="_ui_winner_label" type="Label" parent="score_pane"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -40.0
+offset_top = 100.0
+offset_right = 40.0
+offset_bottom = 140.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="game_borders" type="Node2D" parent="."]
+
+[node name="vertical_borders" type="Area2D" parent="game_borders"]
+
+[node name="left_border" type="CollisionShape2D" parent="game_borders/vertical_borders"]
+position = Vector2(-550, 0)
+shape = SubResource("RectangleShape2D_k7g0r")
+
+[node name="right_border" type="CollisionShape2D" parent="game_borders/vertical_borders"]
+position = Vector2(550, 0)
+shape = SubResource("RectangleShape2D_k7g0r")
+
+[node name="horizantal_borders" type="Area2D" parent="game_borders"]
+
+[node name="upper_border" type="CollisionShape2D" parent="game_borders/horizantal_borders"]
+position = Vector2(0, -320)
+shape = SubResource("RectangleShape2D_tqrge")
+
+[node name="lower_border" type="CollisionShape2D" parent="game_borders/horizantal_borders"]
+position = Vector2(0, 320)
+shape = SubResource("RectangleShape2D_tqrge")
+
+[connection signal="area_entered" from="ball" to="ball" method="_on_area_entered"]
+[connection signal="pressed" from="score_pane/_ui_pause_button" to="." method="_on__ui_pause_button_pressed"]
+[connection signal="pressed" from="score_pane/_ui_restart_button" to="." method="_on__ui_restart_button_pressed"]
+[connection signal="area_entered" from="game_borders/vertical_borders" to="." method="_on_vertical_borders_area_entered"]
+[connection signal="area_entered" from="game_borders/horizantal_borders" to="." method="_on_horizantal_borders_area_entered"]
