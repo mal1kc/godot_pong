@@ -18,9 +18,8 @@ func _ready():
   pause_game()
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):    
+func _process(delta):
   pass
-    
 func pause_game():
   get_tree().set_pause(true)
 
@@ -28,7 +27,6 @@ func resume_game():
   if game_finished:
     reset_game()
   get_tree().set_pause(false)
-  
 func reset_game():
   _ui_winner_label.hide()
   game_finished = false

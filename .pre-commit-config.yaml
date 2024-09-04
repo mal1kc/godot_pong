@@ -1,0 +1,37 @@
+# See https://pre-commit.com for more information
+# See https://pre-commit.com/hooks.html for more hooks
+repos:
+- repo: https://github.com/pre-commit/pre-commit-hooks
+  rev: v4.6.0
+  hooks:
+  -   id: trailing-whitespace
+  -   id: end-of-file-fixer
+  -   id: check-added-large-files
+  -   id: mixed-line-ending
+  -   id: check-toml
+  -   id: check-yaml
+  -   id: check-merge-conflict
+
+- repo: https://github.com/gitleaks/gitleaks
+  rev: v8.16.1
+  hooks:
+    - id: gitleaks
+
+- repo: https://github.com/Lucas-C/pre-commit-hooks
+  rev: v1.5.5
+  hooks:
+    - id: forbid-crlf
+    - id: remove-crlf
+    - id: forbid-tabs
+    - id: remove-tabs
+      args: [--whitespaces-count, '2']  # defaults to: 4
+    - id: chmod
+      args: ['644']
+      files: \.md$
+    - id: insert-license
+      files: \.groovy$
+      args:
+        - --license-filepath
+        - src/license_header.txt        # defaults to: LICENSE.txt
+        - --use-current-year
+        - --no-extra-eol                # see below
